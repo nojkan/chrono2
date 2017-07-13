@@ -1,0 +1,103 @@
+{
+    "niveaux": [
+        {
+            "idNiveau": "1a",
+            "Exos": [
+                {
+                    "idExo": "A1",
+                    "nbSerie": "2",
+                    "reposBetweenSerie": "7",
+                    "reposAfterExo": "30"
+                },
+                {
+                    "idExo": "A2",
+                    "nbSerie": "4",
+                    "reposBetweenSerie": "10",
+                    "reposAfterExo": "5"
+                }
+            ]
+        },
+        {
+            "idNiveau": "1b",
+            "Exos": [
+                {
+                    "idExo": "B1",
+                    "nbSerie": "3",
+                    "reposBetweenSerie": "21",
+                    "reposAfterExo": "30"
+                },
+                {
+                    "idExo": "C2",
+                    "nbSerie": "2",
+                    "reposBetweenSerie": "20",
+                    "reposAfterExo": "40"
+                }
+            ]
+        },
+        {
+            "idNiveau": "2",
+            "Exos": [
+                {
+                    "idExo": "B1",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "25"
+                },
+                {
+                    "idExo": "A3",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "25"
+                },
+                {
+                    "idExo": "A2",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "180"
+                },
+                {
+                    "idExo": "C1",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "180"
+                },
+                {
+                    "idExo": "Ed",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "120"
+                },
+                {
+                    "idExo": "Eg",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "180"
+                },
+                {
+                    "idExo": "F",
+                    "nbSerie": "4",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "180"
+                },
+                {
+                    "idExo": "G",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "150"
+                },
+                {
+                    "idExo": "H",
+                    "nbSerie": "6",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "60"
+                },
+                {
+                    "idExo": "K2",
+                    "nbSerie": "3",
+                    "reposBetweenSerie": "25",
+                    "reposAfterExo": "0"
+                }
+            ]
+        }
+    ]
+}
