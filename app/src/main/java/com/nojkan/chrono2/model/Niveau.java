@@ -1,5 +1,7 @@
 package com.nojkan.chrono2.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  * Defines Niveau Object, containing idNiveau and arrayList of Exo object
  */
 public class Niveau {
+    private static final String TAG = "Niveau";
 
     private String idNiveau;
     private ArrayList<Workout> exoArrayList;
@@ -53,6 +56,10 @@ public class Niveau {
 
             JSONArray jsonExos = obj.getJSONArray("Exos");
             for(int i = 0; i < jsonExos.length(); i++) {
+                Log.v(TAG,"index i : "+ i);
+                Log.v(TAG,"json exo length" + jsonExos.length());
+                Log.v(TAG,"add id exo : " + Workout.parse(jsonExos.getJSONObject(i)).getIdExo());
+                Log.v(TAG,"with #niveaux : " + Workout.parse(jsonExos.getJSONObject(i)).getNbSerie());
                 parsedExos.add(Workout.parse(jsonExos.getJSONObject(i)));
             }
 

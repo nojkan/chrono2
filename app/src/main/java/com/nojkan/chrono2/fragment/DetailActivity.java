@@ -19,23 +19,50 @@ package com.nojkan.chrono2.fragment;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.android.materialdesigncodelab.R;
+import com.nojkan.chrono2.adapter.WorkoutAdapter;
+import com.nojkan.chrono2.model.Niveau;
+import com.nojkan.chrono2.model.NiveauxController;
+import com.nojkan.chrono2.model.Workout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
  */
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "DetailActivity";
+
     public static final String EXTRA_POSITION = "position";
+    public static final String EXTRA_NIVEAU = "niveau";
+
+    private static NiveauxController niveauxController;
+    private int mPosition;
+
+    private String mNiveau = "0";
+
+    public WorkoutAdapter adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -43,47 +70,112 @@ public class DetailActivity extends AppCompatActivity {
         // Set Collapsing Toolbar layout to the screen
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        // Set title of Detail page
-        // collapsingToolbar.setTitle(getString(R.string.item_title));
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        int postion = getIntent().getIntExtra(EXTRA_POSITION, 0);
-        Resources resources = getResources();
-        String[] places = resources.getStringArray(R.array.places);
-        collapsingToolbar.setTitle(places[postion % places.length]);
-
-      /*  List<Workout> genres = getWorkout();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_workout);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        //instantiate your adapter with the list of genres
-        GenreAdapter adapter = new GenreAdapter(genres);
+        mPosition = getIntent().getIntExtra(EXTRA_POSITION, 0);
+        Log.v(TAG,"position Niveau: "+ mPosition);
+
+
+        niveauxController = NiveauxController.getInstance(null);
+        niveauxController.getIdNiveauxList();
+        Niveau myNiveau = niveauxController.getNiveau(mPosition);
+        Log.v(TAG,"Niveau in detail activity" + myNiveau.toString());
+       /* String sNiveau = getIntent().getStringExtra(EXTRA_NIVEAU);
+        Niveau myNiveau = NiveauxController.getInstance(this).getNiveau();*/
+        collapsingToolbar.setTitle("Niveau : " + myNiveau.getIdNiveau());
+        mNiveau = myNiveau.getIdNiveau();
+        Log.v(TAG,"mNiveau : "+ mNiveau);
+
+        // Set title of Detail page
+
+        /*ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager_workout);
+        setupViewPager(viewPager);
+*/
+
+
+       List<Workout> workouts = myNiveau.getExoArrayList();
+
+       /* RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_workout);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+*/
+
+        // RecyclerView has some built in animations to it, using the DefaultItemAnimator.
+        // Specifically when you call notifyItemChanged() it does a fade animation for the changing
+        // of the data in the ViewHolder. If you would like to disable this you can use the following:
+       RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof DefaultItemAnimator) {
+            ((DefaultItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
+
+        //instantiate your adapter with the list of workouts
+       adapter = new WorkoutAdapter(workouts);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
 
 
-       /* String[] placeDetails = resources.getStringArray(R.array.place_details);
-        TextView placeDetail = (TextView) findViewById(R.id.place_detail);
-        placeDetail.setText(placeDetails[postion % placeDetails.length]);
-
-        String[] placeLocations = resources.getStringArray(R.array.place_locations);
-        TextView placeLocation =  (TextView) findViewById(R.id.place_location);
-        placeLocation.setText(placeLocations[postion % placeLocations.length]);
-*/
-        TypedArray placePictures = resources.obtainTypedArray(R.array.places_picture);
-        ImageView placePicutre = (ImageView) findViewById(R.id.image);
-        placePicutre.setImageDrawable(placePictures.getDrawable(postion % placePictures.length()));
-
-        placePictures.recycle();
     }
 
 
-    private void setupViewPager(ViewPager viewPager) {
-        MainActivity.Adapter adapter = new MainActivity.Adapter(getSupportFragmentManager());
-        adapter.addFragment(new SeriesContentFragment(), "ListSeries");
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        adapter.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        adapter.onRestoreInstanceState(savedInstanceState);
+    }
+/*
+   private void setupViewPager(ViewPager viewPager) {
+        DetailActivity.Adapter adapter = new Adapter(getSupportFragmentManager());
+        WorkoutContentFragment wf = new WorkoutContentFragment();
+        adapter.addFragment(wf, "ListWorkout");
+        Bundle args = new Bundle();
+        args.putString("niveau", mNiveau);
+        args.putInt("idNiveauList", mPosition);
+        wf.setArguments(args);
         viewPager.setAdapter(adapter);
     }
+
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
+    }
+
+*/
+
+
+
 }
+
+

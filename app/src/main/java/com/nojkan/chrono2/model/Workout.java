@@ -1,5 +1,7 @@
 package com.nojkan.chrono2.model;
 
+import android.util.Log;
+
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import org.json.JSONException;
@@ -20,11 +22,27 @@ public class Workout extends ExpandableGroup<Serie> {
     private String nbSerie;
     private String reposBetweenSerie;
     private String reposAfterExo;
-    private static List<Serie> items;
+    private List<Serie> items;
+    private int iconResId;
 
-    public List<Serie> getItems() {
-        return items;
+
+    public Workout(String idExo, String nbSerie,String reposBetweenSerie,String reposAfterExo,List<Serie> items) {
+        super(idExo,items);
+        this.idExo = idExo;
+        this.nbSerie = nbSerie;
+        this.reposBetweenSerie=reposBetweenSerie;
+        this.reposAfterExo=reposAfterExo;
+        this.items=items;
+
     }
+
+
+
+
+   /* public List<Serie> getItems() {
+        Log.v("items" , this.items.toString());
+        return this.items;
+    }*/
 
     public void setItems(List<Serie> items) {
         this.items = items;
@@ -32,34 +50,10 @@ public class Workout extends ExpandableGroup<Serie> {
 
 
 
-    /*public Workout() {
-        super();
-        this.idExo = "";
-        this.nbSerie = "";
-        this.reposBetweenSerie="";
-        this.reposAfterExo="";
+  /*public Workout(String idExo){
+        super(idExo, items);
+        this.idExo = idExo;
     }*/
-
-    public Workout(String idExo, String nbSerie,String reposBetweenSerie,String reposAfterExo) {
-        super(idExo, items);
-        this.idExo = idExo;
-        this.nbSerie = nbSerie;
-        this.reposBetweenSerie=reposBetweenSerie;
-        this.reposAfterExo=reposAfterExo;
-        this.items=new ArrayList<Serie>();
-        for (int i=1; i < Integer.parseInt(nbSerie) ;i++ ){
-
-            items.add(new Serie(nbSerie));
-
-        }
-    }
-
-
-
-   public Workout(String idExo){
-        super(idExo, items);
-        this.idExo = idExo;
-    }
 
 
     public String getIdExo() {
@@ -95,12 +89,25 @@ public class Workout extends ExpandableGroup<Serie> {
     }
 
     public static Workout parse(JSONObject obj) {
+
         try {
+            int iNbSerie = Integer.parseInt(obj.getString("nbSerie"));
+            ArrayList<Serie> listSerie = new ArrayList<Serie>();
+
+
+            for (int i=0; i < iNbSerie;i++ ){
+
+                listSerie.add(new Serie(i));
+
+        }
+
+
             return new Workout(
                     obj.getString("idExo"),
                     obj.getString("nbSerie"),
                     obj.getString("reposBetweenSerie"),
-                    obj.getString("reposAfterExo")
+                    obj.getString("reposAfterExo"),
+                    listSerie
             );
         } catch (JSONException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.materialdesigncodelab.R;
+import com.nojkan.chrono2.model.Serie;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 
 /**
@@ -14,16 +15,19 @@ import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 public class SerieViewHolder extends ChildViewHolder {
 
 
-    private TextView childTextView;
+    private TextView serieName;
 
     public SerieViewHolder(View itemView) {
         super(itemView);
-        childTextView = (TextView) itemView.findViewById(R.id.list_title);
+        serieName = (TextView) itemView.findViewById(R.id.list_title_serie);
     }
 
     public void setSerieName(String name) {
-        childTextView.setText(name);
+        serieName.setText(name);
     }
 
+    public void onBind(Serie serie) {
+        serieName.setText(serie.getTitle());
+    }
 
 }

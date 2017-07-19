@@ -24,8 +24,13 @@ public class Score {
     }
 
     private int score;
+
      private Date timestamp;
 
+    public Score(){
+        score = 0;
+        timestamp = new Date();
+    }
 
      public Score(int inscore) {
          score = inscore;

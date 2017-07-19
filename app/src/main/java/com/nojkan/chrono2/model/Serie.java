@@ -9,8 +9,42 @@ import android.os.Parcelable;
 
 public class Serie implements  Parcelable {
     protected Serie(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
     }
+
+
+    private int id;
+    private Score score;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
+    public String getTitle(){
+        //on ajoute 1 pour avoir le nom de la serie entre 1 et N et non 0 et N
+        return (this.getId()+1)+"";
+    }
+
+
+
+
+    public Serie(int input){
+         id = input;
+         score = new Score();
+    }
+
 
     public static final Creator<Serie> CREATOR = new Creator<Serie>() {
         @Override
@@ -24,30 +58,6 @@ public class Serie implements  Parcelable {
         }
     };
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Score getScore() {
-        return score;
-    }
-
-    public void setScore(Score score) {
-        this.score = score;
-    }
-
-    private String id;
-    private Score score;
-
-    public Serie (String input){
-        id = input;
-    }
-
-
     @Override
     public int describeContents() {
         return 0;
@@ -55,6 +65,6 @@ public class Serie implements  Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
+        parcel.writeInt(id);
     }
 }

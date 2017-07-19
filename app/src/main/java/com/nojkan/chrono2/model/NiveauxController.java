@@ -110,6 +110,7 @@ public class NiveauxController {
 
     public Niveau getNiveau(int index) {
         try {
+            Log.v(TAG,"index Niveau, label niveau "+ index + "," + niveauArray.getJSONObject(index).toString());
             return Niveau.parse(niveauArray.getJSONObject(index));
         } catch (JSONException e) {
             e.printStackTrace();

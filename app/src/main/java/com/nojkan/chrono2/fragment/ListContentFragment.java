@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,21 +33,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.materialdesigncodelab.R;
+import com.nojkan.chrono2.model.Niveau;
 import com.nojkan.chrono2.model.NiveauxController;
 
 /**
  * Provides UI for the view with List.
  */
 public class ListContentFragment extends Fragment {
+    private static final String TAG = "ListNiveaux";
 
     private static NiveauxController niveauxController;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         niveauxController = NiveauxController.getInstance(null);
-        niveauxController.getIdNiveauxList();
+        String[] myNiveaux = niveauxController.getIdNiveauxList();
+
+        Log.v(TAG, "idNiveau list :" + myNiveaux.toString());
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
@@ -70,7 +76,10 @@ public class ListContentFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
+                    Niveau nivClick = niveauxController.getNiveau(getAdapterPosition());
                     intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    intent.putExtra(DetailActivity.EXTRA_NIVEAU, "Niveau " + nivClick.getIdNiveau());
+                    Log.v(TAG,"Niveau Click"+ nivClick.getIdNiveau());
                     context.startActivity(intent);
                 }
             });
@@ -82,37 +91,37 @@ public class ListContentFragment extends Fragment {
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.
-        private static final int LENGTH = 3;
+        //private static final int LENGTH = 13 ;
 
-        private final String[] mPlaces;
-        private final Drawable[] mPlaceAvators;
+        private final String[] mNiveaux;
+        //private final Drawable[] mPlaceAvators;
 
         public ContentAdapter(Context context) {
-            Resources resources = context.getResources();
+            //Resources resources = context.getResources();
             //mPlaces = resources.getStringArray(R.array.places);
-            mPlaces = niveauxController.getIdNiveauxList();
-            TypedArray a = resources.obtainTypedArray(R.array.place_avator);
+            mNiveaux = niveauxController.getIdNiveauxList();
+            /*TypedArray a = resources.obtainTypedArray(R.array.place_avator);
             mPlaceAvators = new Drawable[a.length()];
             for (int i = 0; i < mPlaceAvators.length; i++) {
                 mPlaceAvators[i] = a.getDrawable(i);
             }
-            a.recycle();
+            a.recycle();*/
         }
-        @Override
+      @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.avator.setImageDrawable(mPlaceAvators[position % mPlaceAvators.length]);
-            holder.name.setText(mPlaces[position % mPlaces.length]);
+            /*holder.avator.setImageDrawable(mPlaceAvators[position % mPlaceAvators.length]);*/
+            holder.name.setText(mNiveaux[position % mNiveaux.length]);
 
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return mNiveaux.length;
         }
     }
 
