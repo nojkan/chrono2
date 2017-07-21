@@ -66,8 +66,7 @@ public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHol
                                       ExpandableGroup group) {
         holder.setWorkoutTitle(group);
         holder.setBackgroundImage(group);
-        //holder.setWorkoutImage(group);
-        //holder
+
 
     }
 }

@@ -19,12 +19,10 @@ package com.nojkan.chrono2.fragment;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.AppBarLayout;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.materialdesigncodelab.R;
 import com.nojkan.chrono2.adapter.WorkoutAdapter;
@@ -43,6 +42,7 @@ import com.nojkan.chrono2.model.Workout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Provides UI for the Detail page with Collapsing Toolbar.
@@ -60,16 +60,18 @@ public class DetailActivity extends AppCompatActivity {
     private String mNiveau = "0";
 
     public WorkoutAdapter adapter;
+    private CountDownTimer countDownTimer = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //setSupportActionBar((Toolbar) findViewById(R.id.detail_toolbar));
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set Collapsing Toolbar layout to the screen
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+       AppBarLayout appBarLayout =
+                (AppBarLayout) findViewById(R.id.detail_appbar);
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view_workout);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -84,7 +86,25 @@ public class DetailActivity extends AppCompatActivity {
         Log.v(TAG,"Niveau in detail activity" + myNiveau.toString());
        /* String sNiveau = getIntent().getStringExtra(EXTRA_NIVEAU);
         Niveau myNiveau = NiveauxController.getInstance(this).getNiveau();*/
-        collapsingToolbar.setTitle("Niveau : " + myNiveau.getIdNiveau());
+
+       //Titre toolbar
+        final TextView detailTitle = ((TextView) appBarLayout.findViewById(R.id.detail_title));
+       detailTitle.setText("Niveau " + myNiveau.getIdNiveau());
+
+        //ajout du compte a rebours
+        final TextView countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countdownView.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                countdownView.setText("Go!");
+            }
+        }.start();
+
+
         mNiveau = myNiveau.getIdNiveau();
         Log.v(TAG,"mNiveau : "+ mNiveau);
 
@@ -130,6 +150,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         adapter.onRestoreInstanceState(savedInstanceState);
     }
+
+
 
 
 

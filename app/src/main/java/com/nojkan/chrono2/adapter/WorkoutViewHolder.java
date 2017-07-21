@@ -91,7 +91,7 @@ public class WorkoutViewHolder extends GroupViewHolder {
             workoutAvatar.setImageResource(resourceID);
 
         }
-       
+
 
 
 
