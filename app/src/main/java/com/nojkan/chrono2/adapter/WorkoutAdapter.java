@@ -1,5 +1,8 @@
 package com.nojkan.chrono2.adapter;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +27,22 @@ import java.util.logging.Logger;
 
 public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHolder, SerieViewHolder> {
 
-
+    private Context mContext;
     private static final String TAG = "WorkoutAdapter";
 
-    public WorkoutAdapter(List<? extends ExpandableGroup> groups) {
+
+    public WorkoutAdapter(Context context, List<? extends ExpandableGroup> groups) {
         super(groups);
+        mContext = context;
+
+
     }
 
     @Override
     public WorkoutViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
       View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_workout, parent, false);
-        return new WorkoutViewHolder(view);
+        return new WorkoutViewHolder(view, mContext);
     }
 
     @Override
@@ -47,13 +54,10 @@ public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHol
     @Override
     public void onBindChildViewHolder(SerieViewHolder holder, int flatPosition, ExpandableGroup group,
                                       int childIndex) {
-        Log.v(TAG,"onBindCildViewHolder");
-       Log.v(TAG, "group" + group.getItems().toString());
-       //this.getGroups().get(childIndex).getItems();
-        Log.v(TAG,"flatposition : "+ flatPosition);
-        Log.v(TAG,"clildindex : "+ childIndex);
+
+
         Serie serie = ((Workout) group).getItems().get(childIndex);
-        Log.v(TAG,"serieId "+serie.getId());
+        //Log.v(TAG,"serieId "+serie.getId());
         holder.setSerieName(""+(serie.getId()));
     }
 
@@ -61,6 +65,9 @@ public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHol
     public void onBindGroupViewHolder(WorkoutViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setWorkoutTitle(group);
-        //holder.serWorkoutImage(group);
+        holder.setBackgroundImage(group);
+        //holder.setWorkoutImage(group);
+        //holder
+
     }
 }

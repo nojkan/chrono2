@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         //instantiate your adapter with the list of workouts
-       adapter = new WorkoutAdapter(workouts);
+       adapter = new WorkoutAdapter(this.getApplicationContext(), workouts);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -130,49 +130,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         adapter.onRestoreInstanceState(savedInstanceState);
     }
-/*
-   private void setupViewPager(ViewPager viewPager) {
-        DetailActivity.Adapter adapter = new Adapter(getSupportFragmentManager());
-        WorkoutContentFragment wf = new WorkoutContentFragment();
-        adapter.addFragment(wf, "ListWorkout");
-        Bundle args = new Bundle();
-        args.putString("niveau", mNiveau);
-        args.putInt("idNiveauList", mPosition);
-        wf.setArguments(args);
-        viewPager.setAdapter(adapter);
-    }
-
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public Adapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-
-    }
-
-*/
 
 
 
