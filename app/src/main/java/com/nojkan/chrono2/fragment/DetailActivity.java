@@ -23,6 +23,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +62,9 @@ public class DetailActivity extends AppCompatActivity {
 
     public WorkoutAdapter adapter;
     private CountDownTimer countDownTimer = null;
+    private TextView countdownView = null;
+    private int repos;
+    private FloatingActionButton fab_play = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,27 +90,39 @@ public class DetailActivity extends AppCompatActivity {
         Log.v(TAG,"Niveau in detail activity" + myNiveau.toString());
        /* String sNiveau = getIntent().getStringExtra(EXTRA_NIVEAU);
         Niveau myNiveau = NiveauxController.getInstance(this).getNiveau();*/
+        countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
+
+        repos = Integer.parseInt(myNiveau.getExoArrayList().get(0).getReposBetweenSerie());
+
+        fab_play = (FloatingActionButton) findViewById(R.id.fab_workout);
+        countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
+        countdownView.setText("--");
+
+        fab_play.setOnClickListener(new View.OnClickListener() {
+
+
+
+            public void onClick(View v) {
+                //start timer
+                startTimer(repos, countdownView);
+                //change fab icon
+                fab_play.setImageResource(R.drawable.ic_pause_white_24px);
+
+            }
+
+
+
+        });
 
        //Titre toolbar
         final TextView detailTitle = ((TextView) appBarLayout.findViewById(R.id.detail_title));
        detailTitle.setText("Niveau " + myNiveau.getIdNiveau());
 
-        //ajout du compte a rebours
-        final TextView countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
-        new CountDownTimer(30000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                countdownView.setText("" + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                countdownView.setText("Go!");
-            }
-        }.start();
 
 
         mNiveau = myNiveau.getIdNiveau();
         Log.v(TAG,"mNiveau : "+ mNiveau);
+        myNiveau.getExoArrayList().get(0).getReposAfterExo();
 
         // Set title of Detail page
 
@@ -152,6 +168,21 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+    protected void startTimer(int repos, final TextView countdownView){
+
+        new CountDownTimer( (repos)*100, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countdownView.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                countdownView.setText("Go!");
+                fab_play.setImageResource(R.drawable.ic_play_circle_filled_black_24px);
+
+            }
+        }.start();
+    }
 
 
 

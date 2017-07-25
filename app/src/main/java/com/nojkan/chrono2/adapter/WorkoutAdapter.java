@@ -48,6 +48,7 @@ public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHol
     @Override
     public SerieViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_serie, parent, false);
+
         return new SerieViewHolder(view);
     }
 
@@ -59,6 +60,9 @@ public class WorkoutAdapter extends ExpandableRecyclerViewAdapter<WorkoutViewHol
         Serie serie = ((Workout) group).getItems().get(childIndex);
         //Log.v(TAG,"serieId "+serie.getId());
         holder.setSerieName(""+(serie.getId()));
+        holder.setSerieActive(true, 0);
+
+
     }
 
     @Override
