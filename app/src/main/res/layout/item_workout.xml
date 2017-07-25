@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_workout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
@@ -28,7 +29,7 @@
         android:scaleType="centerCrop"
        />
 
-    <TextView
+    <CheckedTextView
         android:id="@+id/list_title_workout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

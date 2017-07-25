@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.materialdesigncodelab.R;
@@ -72,6 +73,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         //setSupportActionBar((Toolbar) findViewById(R.id.detail_toolbar));
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Set Collapsing Toolbar layout to the screen
        AppBarLayout appBarLayout =
                 (AppBarLayout) findViewById(R.id.detail_appbar);
@@ -88,8 +90,7 @@ public class DetailActivity extends AppCompatActivity {
         niveauxController.getIdNiveauxList();
         Niveau myNiveau = niveauxController.getNiveau(mPosition);
         Log.v(TAG,"Niveau in detail activity" + myNiveau.toString());
-       /* String sNiveau = getIntent().getStringExtra(EXTRA_NIVEAU);
-        Niveau myNiveau = NiveauxController.getInstance(this).getNiveau();*/
+
         countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
 
         repos = Integer.parseInt(myNiveau.getExoArrayList().get(0).getReposBetweenSerie());
@@ -98,9 +99,9 @@ public class DetailActivity extends AppCompatActivity {
         countdownView = ((TextView) appBarLayout.findViewById(R.id.countdown));
         countdownView.setText("--");
 
+
+
         fab_play.setOnClickListener(new View.OnClickListener() {
-
-
 
             public void onClick(View v) {
                 //start timer
@@ -119,23 +120,16 @@ public class DetailActivity extends AppCompatActivity {
        detailTitle.setText("Niveau " + myNiveau.getIdNiveau());
 
 
-
         mNiveau = myNiveau.getIdNiveau();
         Log.v(TAG,"mNiveau : "+ mNiveau);
         myNiveau.getExoArrayList().get(0).getReposAfterExo();
 
         // Set title of Detail page
 
-        /*ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager_workout);
-        setupViewPager(viewPager);
-*/
 
 
        List<Workout> workouts = myNiveau.getExoArrayList();
 
-       /* RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_workout);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-*/
 
         // RecyclerView has some built in animations to it, using the DefaultItemAnimator.
         // Specifically when you call notifyItemChanged() it does a fade animation for the changing
@@ -150,6 +144,14 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+   /*     RelativeLayout clear = (RelativeLayout) findViewById(R.id.item_workout);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clearChoices();
+            }
+        });
+*/
 
 
     }

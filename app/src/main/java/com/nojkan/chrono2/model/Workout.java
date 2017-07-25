@@ -2,7 +2,8 @@ package com.nojkan.chrono2.model;
 
 import android.util.Log;
 
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+//import com.thoughtbot.expandablecheckrecyclerview.models.CheckedExpandableGroup;
+import com.thoughtbot.expandablecheckrecyclerview.models.SingleCheckExpandableGroup;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by erwandiverrez on 22/07/2015.
  */
-public class Workout extends ExpandableGroup<Serie> {
+public class Workout extends  SingleCheckExpandableGroup {
     private String idExo;
     private String nbSerie;
     private String reposBetweenSerie;

@@ -1,11 +1,13 @@
 package com.nojkan.chrono2.adapter;
 
 import android.view.View;
+import android.widget.Checkable;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.example.android.materialdesigncodelab.R;
 import com.nojkan.chrono2.model.Serie;
-import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
+import com.thoughtbot.expandablecheckrecyclerview.viewholders.CheckableChildViewHolder;
 
 import static com.example.android.materialdesigncodelab.R.color.dark_grey;
 
@@ -14,18 +16,21 @@ import static com.example.android.materialdesigncodelab.R.color.dark_grey;
  */
 
 
-public class SerieViewHolder extends ChildViewHolder {
+public class SerieViewHolder extends CheckableChildViewHolder {
 
 
     private TextView serieName;
+    private CheckedTextView childCheckedTextView;
 
     public SerieViewHolder(View itemView) {
         super(itemView);
-        serieName = (TextView) itemView.findViewById(R.id.list_title_serie);
+        childCheckedTextView =
+                (CheckedTextView) itemView.findViewById(R.id.list_title_serie);
+
     }
 
     public void setSerieName(String name) {
-        serieName.setText(name);
+        childCheckedTextView.setText(name);
     }
 
     public void setSerieActive(Boolean isActive, int index){
@@ -34,7 +39,12 @@ public class SerieViewHolder extends ChildViewHolder {
 
     public void onBind(int index) {
 
-        itemView.setBackgroundColor(0xFF00FF00);
+        childCheckedTextView.setBackgroundColor(0xFF00FF00);
+    }
+
+    @Override
+    public Checkable getCheckable() {
+        return childCheckedTextView;
     }
 
 }
